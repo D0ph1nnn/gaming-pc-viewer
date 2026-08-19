@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Gaming PC — Interactive Build Viewer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="style.css">
+<!-- MediaPipe Hands & Camera Utils Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="app">
+  <!-- STEP 1: Biometric Security & Registration Gate -->
+  <div id="biometric-gate">
+    <div class="gate-panel">
+      <div class="gate-header">
+        <div style="font-family: var(--mono); font-size: 10px; color: var(--cyan); letter-spacing: .15em;">SECURITY PROTOCOL</div>
+        <div style="font-size: 18px; font-weight: 700; color: var(--text); font-family: var(--mono); margin-top: 4px;">STEP 1: BIOMETRIC REGISTRATION</div>
+      </div>
+      <div class="gate-body">
+        <div class="scanner-frame" style="position: relative; width: 100%; height: 220px; overflow: hidden; border-radius: 8px; border: 1px dashed var(--cyan); background: #000;">
+          <!-- Active, visible camera feed inside the scanner box -->
+          <video id="webcam-video" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block;"></video>
+          <div class="scan-line"></div>
+        </div>
+        <div id="reg-status" style="font-family: var(--mono); font-size: 12px; color: var(--yellow); text-align: center; margin-top: 14px;">
+          STATUS: INITIALIZING CAMERA...
+        </div>
+      </div>
+      <div class="gate-footer">
+        <button id="bypass-gate-btn" style="background: transparent; border: 1px solid var(--line); color: var(--dim); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: var(--mono); font-size: 11px;">BYPASS (MOUSE MODE)</button>
+        <button id="verify-btn" disabled style="background: rgba(0, 188, 212, 0.2); border: 1px solid var(--cyan); color: var(--cyan); padding: 8px 24px; border-radius: 4px; cursor: not-allowed; font-family: var(--mono); font-size: 11px; font-weight: bold;">VERIFY & ENTER SYSTEM</button>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="main-canvas"></canvas>
+
+  <!-- Top HUD Legend -->
+  <div id="hud-top">
+    <div id="brand"><b>RIG</b><span class="dot">·</span>VIEWER</div>
+    <div id="legend">
+      <b>Controls & Gestures</b>
+      • <b>Mouse Drag:</b> Orbit view<br>
+      • <b>Scroll:</b> Zoom camera<br>
+      • <b>Index Finger Swipe:</b> Rotate / Zoom<br>
+      • <b>Click Marker:</b> Inspect part
+    </div>
+  </div>
+
+  <!-- Hotspot Container -->
+  <div id="hotspot-layer"></div>
+
+  <!-- Bottom Toolbar with Auto Orbit Button -->
+  <div id="bottom-hint">
+    <span>drag to orbit · scroll to zoom</span>
+    <button id="auto-orbit-btn" style="background: transparent; border: 1px solid var(--cyan); color: var(--cyan); padding: 4px 12px; border-radius: 4px; cursor: pointer; font-family: var(--mono); font-size: 11px; font-weight: bold; letter-spacing: .05em; transition: all 0.2s;">AUTO ORBIT: OFF</button>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading">
+    <div class="spin"></div>
+    <div class="label">Loading case model</div>
+    <div class="pct" id="loading-pct">0%</div>
+    <div class="hint">Initializing holographic environment...</div>
+  </div>
+
+  <!-- Component Inspection Modal -->
+  <div id="modal">
+    <div id="modal-panel"></div>
+  </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "====://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="js/App.js"></script>
+</body>
+</html>
